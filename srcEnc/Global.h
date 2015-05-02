@@ -8,6 +8,6 @@
 #define False_8 0x00		// setting up uint8_t with predetermined return codes
 
 #define ByteSize 8			// size of 1 byte
-#define ByteValue 0b11111111		// value of 
+#define ByteValue 0b11111111		// value of 1 byte
 
 #endif // GLOBAL_H_
