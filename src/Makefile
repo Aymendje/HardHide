@@ -79,7 +79,7 @@ PROJECTNAME=HardHide
 # (list all files to compile, e.g. 'a.c b.cpp as.S'):
 # Use .cc, .cpp or .C suffix for C++ files, use .S
 # (NOT .s !!!) for assembly source code files.
-PRJSRC= TRNG.cpp \
+PRJSRC= TRNG.cpp 								\
 		OTP.cpp
 
 # additional includes (e.g. -I/path/to/mydir)
@@ -133,23 +133,23 @@ HEXFORMAT=ihex
 
 # compiler
 CFLAGS=-I. $(INC) -g -mmcu=$(MCU) -O$(OPTLEVEL) \
-	-fpack-struct -fshort-enums             \
-	-funsigned-bitfields -funsigned-char    \
-	-Wall                                        \
-	-Wa,-ahlms=$(firstword                  \
+	-fpack-struct -fshort-enums                 \
+	-funsigned-bitfields -funsigned-char        \
+	-Wall -Wextra                               \
+	-Wa,-ahlms=$(firstword                      \
 	$(filter %.lst, $(<:.c=.lst)))
 
 # c++ specific flags
-CPPFLAGS=-fno-exceptions -std=c++98    \
-	-Wa,-ahlms=$(firstword         \
-	$(filter %.lst, $(<:.cpp=.lst))\
-	$(filter %.lst, $(<:.cc=.lst)) \
+CPPFLAGS=-fno-exceptions -std=c++98   			\
+	-Wa,-ahlms=$(firstword         				\
+	$(filter %.lst, $(<:.cpp=.lst))				\
+	$(filter %.lst, $(<:.cc=.lst)) 				\
 	$(filter %.lst, $(<:.C=.lst)))
 
 # assembler
-ASMFLAGS =-I. $(INC) -mmcu=$(MCU)        \
-	-x assembler-with-cpp            \
-	-Wa,-gstabs,-ahlms=$(firstword   \
+ASMFLAGS =-I. $(INC) -mmcu=$(MCU)        		\
+	-x assembler-with-cpp            			\
+	-Wa,-gstabs,-ahlms=$(firstword   			\
 		$(<:.S=.lst) $(<.s=.lst))
 
 
@@ -187,10 +187,10 @@ ASMFILES=$(filter %.S, $(PRJSRC))
 
 
 # List all object files we need to create
-OBJDEPS=$(CFILES:.c=.o)    \
-	$(CPPFILES:.cpp=.o)\
-	$(BIGCFILES:.C=.o) \
-	$(CCFILES:.cc=.o)  \
+OBJDEPS=$(CFILES:.c=.o)   					 	\
+	$(CPPFILES:.cpp=.o)							\
+	$(BIGCFILES:.C=.o) 							\
+	$(CCFILES:.cc=.o)  							\
 	$(ASMFILES:.S=.o)
 
 # Define all lst files.
@@ -221,8 +221,8 @@ hex: $(HEXROMTRG)
 
 
 writeflash: hex
-	$(AVRDUDE) -c $(AVRDUDE_PROGRAMMERID)   \
-	 -p $(MCU) -P $(AVRDUDE_PORT) -e        \
+	$(AVRDUDE) -c $(AVRDUDE_PROGRAMMERID)  		\
+	 -p $(MCU) -P $(AVRDUDE_PORT) -e       		\
 	 -U flash:w:$(HEXROMTRG)
 
 install: writeflash
@@ -232,7 +232,7 @@ $(DUMPTRG): $(TRG)
 
 
 $(TRG): $(OBJDEPS)
-	$(CC) $(LDFLAGS) -o $(TRG) $(OBJDEPS) \
+	$(CC) $(LDFLAGS) -o $(TRG) $(OBJDEPS) 		\
 	-lm $(LIBS)
 
 
@@ -271,13 +271,13 @@ $(TRG): $(OBJDEPS)
 # hex files from elf
 #####  Generating a gdb initialisation file    #####
 .out.hex:
-	$(OBJCOPY) -j .text                    \
-		-j .data                       \
+	$(OBJCOPY) -j .text                    		\
+		-j .data                       			\
 		-O $(HEXFORMAT) $< $@
 
 .out.ee.hex:
-	$(OBJCOPY) -j .eeprom                  \
-		--change-section-lma .eeprom=0 \
+	$(OBJCOPY) -j .eeprom                  		\
+		--change-section-lma .eeprom=0 			\
 		-O $(HEXFORMAT) $< $@
 
 
@@ -289,7 +289,7 @@ gdbinit: $(GDBINITFILE)
 $(GDBINITFILE): $(TRG)
 	@echo "file $(TRG)" > $(GDBINITFILE)
 
-	@echo "target remote localhost:1212" \
+	@echo "target remote localhost:1212" 		\
 		                >> $(GDBINITFILE)
 
 	@echo "load"        >> $(GDBINITFILE)

@@ -2,10 +2,11 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include <util/delay_basic.h>
-//#define F_CPU SOMETHING_Hz_UL
+
+#include "OTP.h"	
+
 #define TRNG_pin PIND
 #define TRNG_adresse 0x01
-//#define TRNG_freq  1048576 // 1MHz
 #define TRNG_delay_us  1 // 0.95 but we round to 1
 
 #define ByteSize 8
@@ -19,7 +20,7 @@ void initialise();
 void fillOTP(OTP theOTP);
 
 /* Function initalizing the board, all pins etc. */
-void initialise();
+void initialise()
 {
   // Resetting all OTP
   otp_1.resetOTP();
@@ -36,7 +37,7 @@ void initialise();
 }
 
 /* Function to read from the TRNG */
-uint8_t readRN();
+uint8_t readRN()
 {
   // Creating reading variable
   uint8_t byteRead = 0x00;
@@ -45,7 +46,7 @@ uint8_t readRN();
   for (uint8_t  i = 0; i < ByteSize; i++)
   {
     // Delay to me sure we are reading a correct value
-    _delay_ms(TRNG_delay_us)
+    _delay_ms(TRNG_delay_us);
 
     // We write the value at the correct offset
     if(TRNG_pin && TRNG_adresse)
@@ -66,7 +67,7 @@ uint8_t readRN();
 void fillOTP (OTP theOTP)  
 {
   theOTP.resetOTP();
-  while(theOTP.getFilled())
+  while(theOTP.getIsFilled() == false)
   {
     theOTP.addByte(readRN());
   }  

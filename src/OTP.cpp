@@ -1,6 +1,4 @@
 #include "OTP.h"
-#include "Global.h"
-
 
 // Constructor, well, its like a reset, we call it like its new
 OTP::OTP()
@@ -77,7 +75,7 @@ void OTP::resetOTP()
 	// TODO Change this please
 	// Well fuck, ill need to thing of a better thing than this
 	// I am assuming here that position is an array of 2 elements, but it isnt true if we change SizeOfKeyAdress...
-	uint8_t maxJ = 1 << (SizeOfKeyAdress - ByteSize))
+	uint8_t maxJ = 1 << (SizeOfKeyAdress - ByteSize);
 	for(uint8_t i = 0; i < SizeOfPos; i++)
 	{
 		for(uint8_t j = 0; i < maxJ; j++)
@@ -105,8 +103,7 @@ uint8_t OTP::incPosition()
 			}
 		}
 	}
-	else
-		return False_8;
+	return False_8;
 }
 
 
@@ -119,7 +116,7 @@ void OTP::resetPosition()
 }
 
 
-uint8_t OTP::isFilled()
+uint8_t OTP::getIsFilled()
 {
 	return isFilled;
 }

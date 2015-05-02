@@ -2,6 +2,7 @@
 #define OTP_H_
 
 #include <stdint.h>
+#include "Global.h"
 
 // #define SizeOfKey 2048	// Size of the otp (2kb)
 #define SizeOfKeyAdress 11	// log(SizeOfKey, 2) = 11 bits of possible adresses
@@ -37,7 +38,7 @@ public:
 	void resetPosition();
 
 	// Check if OTP is completly filled
-	void getFilled();
+	uint8_t getIsFilled();
 	
 
 private:
