@@ -12,7 +12,7 @@ OTP::~OTP()
 	resetOTP();
 }
 
-uint8_t OTP::isValid()
+fakeBool OTP::isValid()
 {
 	if (position < ByteValue)
 	{
@@ -24,7 +24,7 @@ uint8_t OTP::isValid()
 	}
 }
 
-uint8_t OTP::addByte(uint8_t byteToAdd)
+fakeBool OTP::addByte(uint8_t byteToAdd)
 {
 	if (isValid() && !isFilled)
 	{
@@ -66,7 +66,7 @@ void OTP::resetOTP()
 	isFilled = False_8;
 }
 
-uint8_t OTP::incPosition()
+fakeBool OTP::incPosition()
 {
 	if (isValid())
 	{
@@ -82,11 +82,11 @@ uint8_t OTP::incPosition()
 
 void OTP::resetPosition()
 {
-		position = 0x00;
+	position = 0x00;
 }
 
 
-uint8_t OTP::getIsFilled()
+fakeBool OTP::getIsFilled()
 {
 	return isFilled;
 }

@@ -1,9 +1,8 @@
-#include "Global.h"
+#include "OTP.h"  
+
 #include <avr/io.h>
 #include <util/delay.h>
 #include <util/delay_basic.h>
-
-#include "OTP.h"	
 
 #define TRNG_pin PIND
 #define TRNG_adresse 0x01
