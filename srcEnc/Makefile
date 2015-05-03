@@ -80,7 +80,8 @@ PROJECTNAME=HardHide
 # Use .cc, .cpp or .C suffix for C++ files, use .S
 # (NOT .s !!!) for assembly source code files.
 PRJSRC= TRNG.cpp 								\
-		OTP.cpp
+		OTP.cpp 								\
+		BitArray.cpp
 
 # additional includes (e.g. -I/path/to/mydir)
 INC=

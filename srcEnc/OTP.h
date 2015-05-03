@@ -12,10 +12,10 @@ public:
 	~OTP();
 
 	// Checks if the OTP still have some space
-	fakeBool isValid();
+	verBool isValid();
 
 	// Add bytes to the OTP, shoud be used only while populating the OTP at first use
-	fakeBool addByte(uint8_t byteToAdd);
+	verBool addByte(uint8_t byteToAdd);
 
 	// Reads 1 bytes from the OTP then "remove" it from the OTP
 	// (in fact jsut add 1 to the position of the next read)
@@ -23,10 +23,10 @@ public:
 
 	// Reset everything so it is ready to be reused 
 	// (its just because when we use all of the OTP, we dont want to remap a new memory space, we will use the same)
-	void resetOTP();
+	verBool resetOTP();
 
 	// Put the position back to 0
-	void resetPosition();
+	verBool resetPosition();
 
 	// Check if OTP is completly filled
 	fakeBool getIsFilled();
@@ -34,7 +34,7 @@ public:
 
 private:
 	// Increment the position
-	fakeBool incPosition();
+	verBool incPosition();
 
 	// A huge array containing the whole key
 	// I hope it fits...

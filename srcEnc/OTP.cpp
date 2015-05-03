@@ -12,19 +12,16 @@ OTP::~OTP()
 	resetOTP();
 }
 
-fakeBool OTP::isValid()
+verBool OTP::isValid()
 {
 	if (position < ByteValue)
 	{
-		return True_8;
+		return ERROR;
 	}			
-	else
-	{
-		return False_8;
-	}
+	return OK;
 }
 
-fakeBool OTP::addByte(uint8_t byteToAdd)
+verBool OTP::addByte(uint8_t byteToAdd)
 {
 	if (isValid() && !isFilled)
 	{
@@ -38,12 +35,9 @@ fakeBool OTP::addByte(uint8_t byteToAdd)
 		{
 			isFilled = True_8;
 		}
-		return True_8;
+		return OK;
 	}
-	else
-	{
-		return False_8;
-	}
+	return ERROR;
 }
 
 uint8_t OTP::getByte()
@@ -54,7 +48,7 @@ uint8_t OTP::getByte()
 	return currentByte;
 }
 
-void OTP::resetOTP()
+verBool OTP::resetOTP()
 {
 	resetPosition();
 
@@ -64,25 +58,24 @@ void OTP::resetOTP()
 	}
 
 	isFilled = False_8;
+	return OK;
 }
 
-fakeBool OTP::incPosition()
+verBool OTP::incPosition()
 {
-	if (isValid())
+	if (isValid() && (position < SizeOfKey))
 	{
-		if (position < SizeOfKey)
-		{
-			position++;
-			return True_8;
-		}
+		position++;
+		return OK;
 	}
-	return False_8;
+	return ERROR;
 }
 
 
-void OTP::resetPosition()
+verBool OTP::resetPosition()
 {
 	position = 0x00;
+	return OK;
 }
 
 

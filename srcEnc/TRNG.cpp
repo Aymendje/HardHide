@@ -15,15 +15,16 @@ OTP otp_1;
 OTP otp_2;
 
 uint8_t readRN();
-void initialise();
-void fillOTP(OTP theOTP);
+verBool initialise();
+verBool fillOTP(OTP theOTP);
 
 /* Function initalizing the board, all pins etc. */
-void initialise()
+verBool initialise()
 {
+  verBool returnValue = OK;
   // Resetting all OTP
-  otp_1.resetOTP();
-  otp_2.resetOTP();
+  returnValue |= otp_1.resetOTP();
+  returnValue |= otp_2.resetOTP();
 
   // Initialisng everything at output mode
   DDRA = 0x00;
@@ -33,6 +34,9 @@ void initialise()
 
   // Activate TRNG_adresse in "reading" mode at the correct offset
   TRNG_pin |= TRNG_adresse;
+
+  // check if the initialise worked or not
+  return returnValue;
 }
 
 /* Function to read from the TRNG */
@@ -64,13 +68,15 @@ uint8_t readRN()
 }
 
 void fillOTP (OTP theOTP)  
-{
-  theOTP.resetOTP();
+{  
+  verBool returnValue = OK;
+  // Resetting all OTP
+  returnValue |= theOTP.resetOTP();
   while(theOTP.getIsFilled() == false)
   {
-    theOTP.addByte(readRN());
+    returnValue |= theOTP.addByte(readRN());
   }  
-  theOTP.resetPosition();
+  returnValue |= theOTP.resetPosition();
 }     
 
 int main()
