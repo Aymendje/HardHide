@@ -6,11 +6,11 @@ OTP::OTP()
 	resetOTP();
 }
 
-// Destructor, we already have a reset function to zero everyting
+// Destructor, empty
 OTP::~OTP()
 {
-	resetOTP();
 }
+
 
 verBool OTP::isValid()
 {

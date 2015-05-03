@@ -67,7 +67,7 @@ uint8_t readRN()
   return byteRead;
 }
 
-void fillOTP (OTP theOTP)  
+verBool fillOTP (OTP theOTP)  
 {  
   verBool returnValue = OK;
   // Resetting all OTP
@@ -77,6 +77,7 @@ void fillOTP (OTP theOTP)
     returnValue |= theOTP.addByte(readRN());
   }  
   returnValue |= theOTP.resetPosition();
+  return returnValue;
 }     
 
 int main()

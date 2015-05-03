@@ -7,7 +7,7 @@ BitArray::BitArray()
 
 	for (uint8_t i = 0; i < bitArraySize; i++)
 	{
-		bitArray[i] = False_8;
+		bitArray[i].asByte() = False_8;
 	}
 }
 
@@ -18,7 +18,13 @@ BitArray::BitArray(const BitArray &copy)
 	*this = copy;
 }
 
-// Returns 
+// Destructor, empty
+BitArray::~BitArray()
+{
+}
+
+
+// Returns  the real array size (256)
 uint16_t BitArray::getArraySize() const
 {
 	return bitArraySize;
@@ -32,7 +38,7 @@ fakeBool BitArray::getByte(uint16_t pos) const
 	{
 		return ERROR;
 	}
-	return bitArray[pos];
+	return bitArray[pos].getByte();
 }
 
 verBool BitArray::setBit(uint16_t pos, fakeBool value)
@@ -45,16 +51,7 @@ verBool BitArray::setBit(uint16_t pos, fakeBool value)
 
 	// Calculate the byte position of the bit we are lookign for
 	uint8_t realPos = BYTE_DIV(pos);
-	if (value == True_8)
-	{
-		// we OR the True value at the good position in the byte
-		bitArray[realPos] |= True_8 << BYTE_MOD(pos);
-	}
-	else if (value == False_8)
-	{
-		// we AND the False value at the good position in the byte, with ex: 11101111
-		bitArray[realPos] &= ~(True_8 << BYTE_MOD(pos));
-	}
+	(bitArray[realPos])[BYTE_MOD(pos)] = value;
 	return OK;
 }
 
@@ -67,33 +64,39 @@ fakeBool BitArray::getBit(uint16_t pos) const
 	}
 	// Calculate the byte position of the bit we are lookign for
 	uint8_t realPos = BYTE_DIV(pos);
-	uint8_t value = bitArray[realPos];
 	//Get the bit itself from the byte
-	uint8_t boolValue = value >> BYTE_MOD(pos);
-	return GET_1_BIT(boolValue);
+	fakeBool bitValue = (bitArray[realPos])[BYTE_MOD(pos)];
+	return bitValue;
 }
 
-/*
-// TODO Check maybe if a = a would make it crash ?
-verBool BitArray::operator= (const BitArray &table)
+void BitArray::operator= (const BitArray &table)
 {
 	// Check if we are in range
 	if (table.getArraySize() != this->getArraySize())
 	{
-		return ERROR;
-	}
-	else if (table != this)
+		return;
+	}/*
+	else if (table == this)
 	{
-		return ERROR;
-	}
+		return;
+	}*/
 	for (uint16_t i = 0; i < bitArraySize; i++)
 	{
-		bitArray[i] = table.getBit(i);
+		bitArray[i].asByte() = table.getBit(i);
 	}
-	return OK;
 }
 
+// it is exactly like getByte, but we return the reference of the element so it can be modified
+fakeBool& BitArray::operator[] (const uint16_t pos)
+{
+	if (pos < bitArraySize)
+	{
+		uint8_t realPos = BYTE_DIV(pos);
+		uint8_t posInByte = BYTE_MOD(pos);
+		return (bitArray[realPos])[posInByte];
+	}
 
-
-STUFF HERE
-*/
+	// TODO implement an error handler maybe ?
+	// throw ("Provided index is out of range");
+	// but avr-gcc cant throw...
+}
