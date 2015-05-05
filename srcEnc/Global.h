@@ -26,5 +26,6 @@
 
 typedef uint8_t fakeBool;	// Just a typedef so I know that I am using bool
 typedef uint8_t verBool;	// Just a typedef so I know what I am using a verification value
+typedef __SIZE_TYPE__  size_t;	//Typedefing size_t
 
 #endif // GLOBAL_H_

@@ -54,7 +54,7 @@ verBool OTP::resetOTP()
 
 	for(uint16_t i = 0; i < SizeOfKey; i++)
 	{
-			oneTimePadArray[i] = 0x00;
+		oneTimePadArray[i] = 0x00;
 	}
 
 	isFilled = False_8;

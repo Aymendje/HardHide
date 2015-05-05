@@ -72,7 +72,7 @@ verBool fillOTP (OTP theOTP)
   verBool returnValue = OK;
   // Resetting all OTP
   returnValue |= theOTP.resetOTP();
-  while(theOTP.getIsFilled() == false)
+  while(theOTP.getIsFilled() == False_8)
   {
     returnValue |= theOTP.addByte(readRN());
   }  
